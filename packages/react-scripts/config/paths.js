@@ -73,7 +73,6 @@ module.exports = {
   ownNodeModules: resolveOwn('../node_modules'),
   nodePaths: nodePaths
 };
-// @remove-on-eject-end
 
 // config before publish: we're in ./packages/react-scripts/config/
 if (__dirname.indexOf(path.join('packages', 'react-scripts', 'config')) !== -1) {
@@ -91,3 +90,4 @@ if (__dirname.indexOf(path.join('packages', 'react-scripts', 'config')) !== -1) 
     nodePaths: nodePaths
   };
 }
+// @remove-on-eject-end
