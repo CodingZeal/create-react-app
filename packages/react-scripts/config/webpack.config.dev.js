@@ -42,11 +42,9 @@ var env = getClientEnvironment(publicUrl);
 // ZEAL: Converted to a function to allow injecting the publicPath.
 module.exports = function(publicPath) {
   return {
-  // This makes the bundle appear split into separate modules in the devtools.
-  // We don't use source maps here because they can be confusing:
-  // https://github.com/facebookincubator/create-react-app/issues/343#issuecomment-237241875
-  // You may want 'cheap-module-source-map' instead if you prefer source maps.
-  devtool: 'eval',
+    // You may want 'eval' instead if you prefer to see the compiled output in DevTools.
+    // See the discussion in https://github.com/facebookincubator/create-react-app/issues/343.
+    devtool: 'cheap-module-source-map',
   // These are the "entry points" to our application.
   // This means they will be the "root" imports that are included in JS bundle.
   // The first two entry points enable "hot" CSS and auto-refreshes for JS.
