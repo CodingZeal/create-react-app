@@ -13,5 +13,6 @@ module.exports = babelJest.createTransformer({
     require.resolve('babel-preset-latest'),
     require.resolve('babel-preset-react'),
     require.resolve('babel-preset-stage-1')
-  ]
+  ],
+  babelrc: false
 });
