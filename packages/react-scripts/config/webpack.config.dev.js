@@ -138,7 +138,7 @@ module.exports = function(publicPath) {
       // A missing `test` is equivalent to a match.
       {
         exclude: [
-          /\.(html)$/,
+          /\.html$/,
           /\.(js|jsx)$/,
           /\.css$/,
           /\.json$/
