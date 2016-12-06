@@ -145,7 +145,8 @@ module.exports = function(publicPath) {
           /\.html$/,
           /\.(js|jsx)$/,
           /\.css$/,
-          /\.json$/
+          /\.json$/,
+          /\.svg$/
         ],
         loader: 'url',
         query: {
@@ -196,6 +197,14 @@ module.exports = function(publicPath) {
       {
         test: /\.json$/,
         loader: 'json'
+      },
+      // "file" loader for svg
+      {
+        test: /\.svg$/,
+        loader: 'file',
+        query: {
+          name: 'static/media/[name].[hash:8].[ext]'
+        }
       }
     ]
   },
