@@ -15,6 +15,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var ManifestPlugin = require('webpack-manifest-plugin');
 var InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
+var SubresourceIntegrityPlugin = require('webpack-subresource-integrity');
 var url = require('url');
 var paths = require('./paths');
 var getClientEnvironment = require('./env');
@@ -277,6 +278,10 @@ module.exports = {
     // having to parse `index.html`.
     new ManifestPlugin({
       fileName: 'asset-manifest.json'
+    }),
+    // Generate and inject subresources hashes in the final `index.html`.
+    new SubresourceIntegrityPlugin({
+      hashFuncNames: ['sha256', 'sha384']
     })
   ],
   // ZEAL: Configure resolving imports from client root
