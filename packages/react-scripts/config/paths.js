@@ -12,6 +12,9 @@
 var path = require('path');
 var fs = require('fs');
 
+// ZEAL: Allow custom build paths via .env config.
+var buildPath = process.env.BUILD_PATH || 'build'
+
 // Make sure any symlinks in the project folder are resolved:
 // https://github.com/facebookincubator/create-react-app/issues/637
 var appDirectory = fs.realpathSync(process.cwd());
@@ -37,7 +40,7 @@ var nodePaths = (process.env.NODE_PATH || '')
 
 // config after eject: we're in ./config/
 module.exports = {
-  appBuild: resolveApp('build'),
+  appBuild: resolveApp(buildPath),
   appPublic: resolveApp('client/public'),
   appHtml: resolveApp('client/public/index.html'),
   appIndexJs: resolveApp('client/index.js'),
@@ -56,7 +59,7 @@ function resolveOwn(relativePath) {
 
 // config before eject: we're in ./node_modules/react-scripts/config/
 module.exports = {
-  appBuild: resolveApp('build'),
+  appBuild: resolveApp(buildPath),
   appPublic: resolveApp('client/public'),
   appHtml: resolveApp('client/public/index.html'),
   appIndexJs: resolveApp('client/index.js'),
@@ -73,7 +76,7 @@ module.exports = {
 // config before publish: we're in ./packages/react-scripts/config/
 if (__dirname.indexOf(path.join('packages', 'react-scripts', 'config')) !== -1) {
   module.exports = {
-    appBuild: resolveOwn('../../../build'),
+    appBuild: resolveOwn('../../../' + buildPath),
     appPublic: resolveOwn('../template/client/public'),
     appHtml: resolveOwn('../template/client/public/index.html'),
     appIndexJs: resolveOwn('../template/client/index.js'),
