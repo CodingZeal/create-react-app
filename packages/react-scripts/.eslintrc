@@ -1,6 +1,3 @@
 {
-  "extends": "react-app",
-  "settings": {
-    "import/resolver": "webpack"
-  }
+  "extends": "react-app"
 }
