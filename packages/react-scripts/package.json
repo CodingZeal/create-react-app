@@ -57,7 +57,6 @@
     "json-loader": "0.5.4",
     "node-sass": "^3.13.0",
     "object-assign": "4.1.0",
-    "path-exists": "2.1.0",
     "postcss-loader": "1.0.0",
     "promise": "7.1.1",
     "react-dev-utils": "^0.4.2",
