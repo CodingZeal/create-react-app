@@ -18,6 +18,8 @@ module.exports = (resolve, rootDir, isEjecting) => {
   const setupTestsFile = pathExists.sync(paths.testsSetup) ? '<rootDir>/src/setupTests.js' : undefined;
 
   const config = {
+    // ZEAL: Coverage report to inlcude all client src code
+    collectCoverageFrom: ['client/**/*.js', '!client/**/*-spec.js'],
     // ZEAL: Configure resolving imports from client root
     moduleDirectories: [paths.appSrc, paths.appNodeModules, paths.ownNodeModules],
     moduleFileExtensions: ['jsx', 'js', 'json'],
