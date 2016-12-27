@@ -156,14 +156,14 @@ module.exports = function(publicPath) {
       // ZEAL: Add support for CSS Modules and SASS
       {
         test: /\.css$/,
-        loader: 'style!css?importLoaders=1&modules=1!postcss'
+        loader: 'style!css?importLoaders=1&modules=1&url=false!postcss'
       },
       {
         test: /\.scss$/,
         loaders: [
           'style',
           'css?modules&importLoaders=1' +
-            '&localIdentName=[path][local]__[hash:base64:5]!sass'
+            '&localIdentName=[path][local]__[hash:base64:5]!postcss!sass'
         ]
       },
       // JSON is not enabled by default in Webpack but both Node and Browserify
