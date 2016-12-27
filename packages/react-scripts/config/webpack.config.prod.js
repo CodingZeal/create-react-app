@@ -155,7 +155,7 @@ module.exports = {
         // including CSS. This is confusing and will be removed in Webpack 2:
         // https://github.com/webpack/webpack/issues/283
         // ZEAL: Add support for css modules
-        loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1&-autoprefixer!postcss')
+        loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1&url=false&-autoprefixer!postcss')
         // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
       },
       {
