@@ -156,7 +156,7 @@ module.exports = function(publicPath) {
       // ZEAL: Add support for CSS Modules and SASS
       {
         test: /\.css$/,
-        loader: 'style!css?importLoaders=1&modules=1&url=false!postcss'
+        loader: 'style!css?importLoaders=1!postcss'
       },
       {
         test: /\.scss$/,
