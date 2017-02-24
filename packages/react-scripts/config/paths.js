@@ -94,11 +94,13 @@ module.exports = {
 
 // @remove-on-eject-begin
 function resolveOwn(relativePath) {
-  return path.resolve(__dirname, relativePath);
+  return path.resolve(__dirname, '..', relativePath);
 }
 
 // config before eject: we're in ./node_modules/react-scripts/config/
 module.exports = {
+  appPath: resolveApp('.'),
+  ownPath: resolveApp('node_modules/react-scripts'),
   appBuild: resolveApp(buildPath),
   appPublic: resolveApp('client/public'),
   appHtml: resolveApp('client/public/index.html'),
@@ -109,28 +111,33 @@ module.exports = {
   testsSetup: resolveApp('client/setupTests.js'),
   appNodeModules: resolveApp('node_modules'),
   // this is empty with npm3 but node resolution searches higher anyway:
-  ownNodeModules: resolveOwn('../node_modules'),
+  ownNodeModules: resolveOwn('node_modules'),
   nodePaths: nodePaths,
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json'))
 };
 
+var reactScriptsPath = path.resolve('node_modules/react-scripts');
+var reactScriptsLinked = fs.existsSync(reactScriptsPath) && fs.lstatSync(reactScriptsPath).isSymbolicLink();
+
 // config before publish: we're in ./packages/react-scripts/config/
-if (__dirname.indexOf(path.join('packages', 'react-scripts', 'config')) !== -1) {
+if (!reactScriptsLinked && __dirname.indexOf(path.join('packages', 'react-scripts', 'config')) !== -1) {
   module.exports = {
-    appBuild: resolveOwn('../../../' + buildPath),
-    appPublic: resolveOwn('../template/client/public'),
-    appHtml: resolveOwn('../template/client/public/index.html'),
-    appIndexJs: resolveOwn('../template/client/index.js'),
-    appPackageJson: resolveOwn('../package.json'),
-    appSrc: resolveOwn('../template/client'),
-    yarnLockFile: resolveOwn('../template/yarn.lock'),
-    testsSetup: resolveOwn('../template/client/setupTests.js'),
-    appNodeModules: resolveOwn('../node_modules'),
-    ownNodeModules: resolveOwn('../node_modules'),
+    appPath: resolveApp('.'),
+    ownPath: resolveOwn('.'),
+    appBuild: resolveOwn('../../' + buildPath),
+    appPublic: resolveOwn('template/client/public'),
+    appHtml: resolveOwn('template/client/public/index.html'),
+    appIndexJs: resolveOwn('template/client/index.js'),
+    appPackageJson: resolveOwn('package.json'),
+    appSrc: resolveOwn('template/client'),
+    yarnLockFile: resolveOwn('template/yarn.lock'),
+    testsSetup: resolveOwn('template/client/setupTests.js'),
+    appNodeModules: resolveOwn('node_modules'),
+    ownNodeModules: resolveOwn('node_modules'),
     nodePaths: nodePaths,
-    publicUrl: getPublicUrl(resolveOwn('../package.json')),
-    servedPath: getServedPath(resolveOwn('../package.json'))
+    publicUrl: getPublicUrl(resolveOwn('package.json')),
+    servedPath: getServedPath(resolveOwn('package.json'))
   };
 }
 // @remove-on-eject-end
