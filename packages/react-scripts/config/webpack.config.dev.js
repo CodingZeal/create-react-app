@@ -8,6 +8,7 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 // @remove-on-eject-end
+'use strict';
 
 var autoprefixer = require('autoprefixer');
 var webpack = require('webpack');
@@ -213,7 +214,7 @@ module.exports = function(publicPath) {
   // @remove-on-eject-begin
   // Point ESLint to our predefined config.
   eslint: {
-    configFile: path.join(__dirname, '../.eslintrc'),
+    configFile: path.join(__dirname, '../eslintrc'),
     useEslintrc: false,
   },
   // @remove-on-eject-end

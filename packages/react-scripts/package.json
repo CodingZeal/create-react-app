@@ -11,8 +11,8 @@
     "url": "https://github.com/codingzeal/create-react-app/issues"
   },
   "files": [
-    ".babelrc",
-    ".eslintrc",
+    "babelrc",
+    "eslintrc",
     "bin",
     "config",
     "scripts",
