@@ -163,9 +163,9 @@ module.exports = function(publicPath) {
         query: {
           // @remove-on-eject-begin
           babelrc: false,
+          // ZEAL: Add babel preset stage-1
           presets: [
-            require.resolve('babel-preset-latest'),
-            require.resolve('babel-preset-react'),
+            require.resolve('babel-preset-react-app'),
             require.resolve('babel-preset-stage-1')
           ],
           // @remove-on-eject-end
