@@ -77,8 +77,9 @@ function getServedPath(appPackageJson) {
 }
 
 // config after eject: we're in ./config/
+// ZEAL: use `client` instead of `src` for app directory
 module.exports = {
-  appBuild: resolveApp(buildPath),
+  appBuild: resolveApp('build'),
   appPublic: resolveApp('client/public'),
   appHtml: resolveApp('client/public/index.html'),
   appIndexJs: resolveApp('client/index.js'),
@@ -98,9 +99,10 @@ function resolveOwn(relativePath) {
 }
 
 // config before eject: we're in ./node_modules/react-scripts/config/
+// ZEAL: use `client` instead of `src` for app directory
 module.exports = {
   appPath: resolveApp('.'),
-  appBuild: resolveApp(buildPath),
+  appBuild: resolveApp('build'),
   appPublic: resolveApp('client/public'),
   appHtml: resolveApp('client/public/index.html'),
   appIndexJs: resolveApp('client/index.js'),
@@ -123,9 +125,10 @@ var reactScriptsLinked = fs.existsSync(reactScriptsPath) && fs.lstatSync(reactSc
 
 // config before publish: we're in ./packages/react-scripts/config/
 if (!reactScriptsLinked && __dirname.indexOf(path.join('packages', 'react-scripts', 'config')) !== -1) {
+  // ZEAL: use `client` instead of `src` for app directory
   module.exports = {
     appPath: resolveApp('.'),
-    appBuild: resolveOwn('../../' + buildPath),
+    appBuild: resolveOwn('../../build'),
     appPublic: resolveOwn('template/client/public'),
     appHtml: resolveOwn('template/client/public/index.html'),
     appIndexJs: resolveOwn('template/client/index.js'),
