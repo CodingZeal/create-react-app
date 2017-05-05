@@ -26,11 +26,8 @@ module.exports = (resolve, rootDir, isEjecting) => {
   const config = {
     // ZEAL: Coverage report to inlcude all client src code
     collectCoverageFrom: ['client/**/*.{js,jsx}'],
-    // ZEAL: Configure resolving imports from client root
-    moduleDirectories: [paths.appSrc, paths.appNodeModules, paths.ownNodeModules],
-    moduleNameMapper: {
-      '^.+\\.(css|scss)$': resolve('config/jest/CSSStub.js')
-    },
+    // ZEAL: Allow imports to be resolved from application root path
+    moduleDirectories: ['node_modules', paths.appSrc],
     setupFiles: [resolve('config/polyfills.js')],
     setupTestFrameworkScriptFile: setupTestsFile,
     testPathIgnorePatterns: [
@@ -42,7 +39,7 @@ module.exports = (resolve, rootDir, isEjecting) => {
       '^.+\\.(js|jsx)$': isEjecting ?
         '<rootDir>/node_modules/babel-jest'
         : resolve('config/jest/babelTransform.js'),
-      // '^.+\\.css$': resolve('config/jest/cssTransform.js'),
+      '^.+\\.css$': resolve('config/jest/cssTransform.js'),
       '^(?!.*\\.(js|jsx|css|json)$)': resolve('config/jest/fileTransform.js'),
     },
     transformIgnorePatterns: [
