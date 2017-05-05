@@ -65,9 +65,10 @@ if (isSmokeTest) {
 function setupCompiler(host, port, protocol) {
   // "Compiler" is a low-level interface to Webpack.
   // It lets us listen to some events and provide our own custom messages.
-  // ZEAL: Injecting the publicPath into the config since it needs to be fully
-  // qualified now. More notes in the config regarding publicPath.
-  compiler = webpack(config(publicPath(host, port, protocol)), handleCompile);
+  // ZEAL: We inject the publicPath into the config since it needs to be fully
+  // qualified. More notes in the webpack.config.dev.js regarding this change.
+  var publicPath = protocol + '://' + host + ':' + port + '/'
+  compiler = webpack(config(publicPath), handleCompile);
 
   // "invalid" event fires when you have changed a file, and Webpack is
   // recompiling a bundle. WebpackDevServer takes care to pause serving the
