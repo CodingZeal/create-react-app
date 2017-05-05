@@ -61,9 +61,15 @@ module.exports = function(publicPath) {
       // Note: instead of the default WebpackDevServer client, we use a custom one
       // to bring better experience for Create React App users. You can replace
       // the line below with these two lines if you prefer the stock client:
-      // require.resolve('webpack-dev-server/client') + '?/',
-      // require.resolve('webpack/hot/dev-server'),
-      require.resolve('react-dev-utils/webpackHotDevClient'),
+      // ZEAL: For now, we need to use the stock client because the custom dev
+      // client relies on `window.location` to find the dev server.  However,
+      // since we host our apps inside a back-end app, the dev server is running
+      // somewhere else.
+      // See https://github.com/CodingZeal/create-react-app/issues/6 for some
+      // ideas on how to go back to the custom dev client.
+      require.resolve('webpack-dev-server/client') + '?' + publicPath,
+      require.resolve('webpack/hot/dev-server'),
+      // require.resolve('react-dev-utils/webpackHotDevClient'),
       // We ship a few polyfills by default:
       require.resolve('./polyfills'),
       // Finally, this is your app's code:
