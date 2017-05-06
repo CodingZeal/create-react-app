@@ -136,6 +136,7 @@ module.exports = function(publicPath) {
 
         // "url" loader embeds assets smaller than specified size as data URLs to avoid requests.
         // Otherwise, it acts like the "file" loader.
+        // ZEAL: Add .scss because we add the sass-loader.
         {
           exclude: [
             /\.html$/,
@@ -148,7 +149,8 @@ module.exports = function(publicPath) {
             /\.(js|jsx)(\?.*)?$/,
             /\.css$/,
             /\.json$/,
-            /\.svg$/
+            /\.svg$/,
+            /\.scss$/
           ],
           loader: 'url',
           query: {
@@ -184,6 +186,15 @@ module.exports = function(publicPath) {
         {
           test: /\.css$/,
           loader: 'style!css?importLoaders=1!postcss'
+        },
+        // ZEAL: Add support for CSS Modules and SASS
+        {
+          test: /\.scss$/,
+          loaders: [
+            'style',
+            'css?modules&importLoaders=2' +
+              '&localIdentName=[path][local]__[hash:base64:5]!postcss!sass'
+          ]
         },
         // JSON is not enabled by default in Webpack but both Node and Browserify
         // allow it implicitly so we also enable it.

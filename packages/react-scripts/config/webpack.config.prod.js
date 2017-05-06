@@ -186,10 +186,14 @@ module.exports = {
         )
         // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
       },
+      // ZEAL: Add support for CSS modules and SASS
       {
-        // ZEAL: Add support for scss and extract using ExtractTextPlugin like css above
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1&-autoprefixer!sass!postcss')
+        loader: ExtractTextPlugin.extract(
+          'style',
+          'css?modules&importLoaders=2&-autoprefixer!postcss!sass',
+          extractTextPluginOptions
+        )
       },
       // JSON is not enabled by default in Webpack but both Node and Browserify
       // allow it implicitly so we also enable it.
