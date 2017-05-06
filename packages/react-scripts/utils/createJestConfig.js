@@ -39,14 +39,16 @@ module.exports = (resolve, rootDir, isEjecting) => {
       '^.+\\.(js|jsx)$': isEjecting ?
         '<rootDir>/node_modules/babel-jest'
         : resolve('config/jest/babelTransform.js'),
-      '^.+\\.css$': resolve('config/jest/cssTransform.js'),
+      // ZEAL: Disable the CSS transform in favor of the moduleNameMapper below
+      // '^.+\\.css$': resolve('config/jest/cssTransform.js'),
       '^(?!.*\\.(js|jsx|css|json)$)': resolve('config/jest/fileTransform.js'),
     },
     transformIgnorePatterns: [
       '[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$'
     ],
     moduleNameMapper: {
-      '^react-native$': 'react-native-web'
+      '^react-native$': 'react-native-web',
+      '^.+\\.s?css$': resolve('config/jest/cssObjectProxy.js')
     }
   };
   if (rootDir) {
