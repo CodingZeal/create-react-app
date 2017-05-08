@@ -8,17 +8,21 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 // @remove-on-eject-end
+'use strict';
 
-var path = require('path');
 var autoprefixer = require('autoprefixer');
 var webpack = require('webpack');
-var findCacheDir = require('find-cache-dir');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 var InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 var WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
 var getClientEnvironment = require('./env');
 var paths = require('./paths');
+
+// @remove-on-eject-begin
+// `path` is not used after eject - see https://github.com/facebookincubator/create-react-app/issues/1174
+var path = require('path');
+// @remove-on-eject-end
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -43,11 +47,9 @@ var env = getClientEnvironment(publicUrl);
 // ZEAL: Converted to a function to allow injecting the publicPath.
 module.exports = function(publicPath) {
   return {
-  // This makes the bundle appear split into separate modules in the devtools.
-  // We don't use source maps here because they can be confusing:
-  // https://github.com/facebookincubator/create-react-app/issues/343#issuecomment-237241875
-  // You may want 'cheap-module-source-map' instead if you prefer source maps.
-  devtool: 'eval',
+  // You may want 'eval' instead if you prefer to see the compiled output in DevTools.
+  // See the discussion in https://github.com/facebookincubator/create-react-app/issues/343.
+  devtool: 'cheap-module-source-map',
   // These are the "entry points" to our application.
   // This means they will be the "root" imports that are included in JS bundle.
   // The first two entry points enable "hot" CSS and auto-refreshes for JS.
@@ -125,6 +127,34 @@ module.exports = function(publicPath) {
       }
     ],
     loaders: [
+      // ** ADDING/UPDATING LOADERS **
+      // The "url" loader handles all assets unless explicitly excluded.
+      // The `exclude` list *must* be updated with every change to loader extensions.
+      // When adding a new loader, you must add its `test`
+      // as a new entry in the `exclude` list for "url" loader.
+
+      // "url" loader embeds assets smaller than specified size as data URLs to avoid requests.
+      // Otherwise, it acts like the "file" loader.
+      {
+        exclude: [
+          /\.html$/,
+          // We have to write /\.(js|jsx)(\?.*)?$/ rather than just /\.(js|jsx)$/
+          // because you might change the hot reloading server from the custom one
+          // to Webpack's built-in webpack-dev-server/client?/, which would not
+          // get properly excluded by /\.(js|jsx)$/ because of the query string.
+          // Webpack 2 fixes this, but for now we include this hack.
+          // https://github.com/facebookincubator/create-react-app/issues/1713
+          /\.(js|jsx)(\?.*)?$/,
+          /\.css$/,
+          /\.json$/,
+          /\.svg$/
+        ],
+        loader: 'url',
+        query: {
+          limit: 10000,
+          name: 'static/media/[name].[hash:8].[ext]'
+        }
+      },
       // Process JS with Babel.
       {
         test: /\.(js|jsx)$/,
@@ -140,12 +170,9 @@ module.exports = function(publicPath) {
           ],
           // @remove-on-eject-end
           // This is a feature of `babel-loader` for webpack (not Babel itself).
-          // It enables caching results in ./node_modules/.cache/react-scripts/
-          // directory for faster rebuilds. We use findCacheDir() because of:
-          // https://github.com/facebookincubator/create-react-app/issues/483
-          cacheDirectory: findCacheDir({
-            name: 'react-scripts'
-          })
+          // It enables caching results in ./node_modules/.cache/babel-loader/
+          // directory for faster rebuilds.
+          cacheDirectory: true
         }
       },
       // "postcss" loader applies autoprefixer to our CSS.
@@ -172,33 +199,23 @@ module.exports = function(publicPath) {
         test: /\.json$/,
         loader: 'json'
       },
-      // "file" loader makes sure those assets get served by WebpackDevServer.
-      // When you `import` an asset, you get its (virtual) filename.
-      // In production, they would get copied to the `build` folder.
+      // "file" loader for svg
       {
-        test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
+        test: /\.svg$/,
         loader: 'file',
         query: {
           name: 'static/media/[name].[hash:8].[ext]'
         }
-      },
-      // "url" loader works just like "file" loader but it also embeds
-      // assets smaller than specified size as data URLs to avoid requests.
-      {
-        test: /\.(mp4|webm|wav|mp3|m4a|aac|oga)(\?.*)?$/,
-        loader: 'url',
-        query: {
-          limit: 10000,
-          name: 'static/media/[name].[hash:8].[ext]'
-        }
       }
+      // ** STOP ** Are you adding a new loader?
+      // Remember to add the new extension(s) to the "url" loader exclusion list.
     ]
   },
   // @remove-on-eject-begin
   // Point ESLint to our predefined config.
   eslint: {
-    configFile: path.join(__dirname, '../.eslintrc'),
-    useEslintrc: false
+    configFile: path.join(__dirname, '../eslintrc'),
+    useEslintrc: false,
   },
   // @remove-on-eject-end
   // We use PostCSS for autoprefixing only.
@@ -215,12 +232,11 @@ module.exports = function(publicPath) {
     ];
   },
   plugins: [
-    // Makes the public URL available as %PUBLIC_URL% in index.html, e.g.:
+    // Makes some environment variables available in index.html.
+    // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     // In development, this will be an empty string.
-    new InterpolateHtmlPlugin({
-      PUBLIC_URL: publicUrl
-    }),
+    new InterpolateHtmlPlugin(env.raw),
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({
       inject: true,
@@ -228,7 +244,7 @@ module.exports = function(publicPath) {
     }),
     // Makes some environment variables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
-    new webpack.DefinePlugin(env),
+    new webpack.DefinePlugin(env.stringified),
     // This is necessary to emit hot updates (currently CSS only):
     new webpack.HotModuleReplacementPlugin(),
     // Watcher doesn't work well if you mistype casing in a path so we use

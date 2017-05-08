@@ -5,15 +5,17 @@
  * This source code is licensed under the BSD-style license found in the
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @flow
  */
 // @remove-on-eject-end
+'use strict';
 
-/*
-* ZEAL: Stub style imports with identity proxy to allow testing of
-* dynamic styles etc
-*/
-const idenityObjProxy = require('identity-obj-proxy');
+const path = require('path');
 
-module.exports = idenityObjProxy;
+// This is a custom Jest transformer turning file imports into filenames.
+// http://facebook.github.io/jest/docs/tutorial-webpack.html
+
+module.exports = {
+  process(src, filename) {
+    return 'module.exports = ' + JSON.stringify(path.basename(filename)) + ';';
+  },
+};
