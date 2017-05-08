@@ -170,18 +170,9 @@ module.exports = {
       // in the main CSS file.
       {
         test: /\.css$/,
-        // "?-autoprefixer" disables autoprefixer in css-loader itself:
-        // https://github.com/webpack/css-loader/issues/281
-        // We already have it thanks to postcss. We only pass this flag in
-        // production because "css" loader only enables autoprefixer-powered
-        // removal of unnecessary prefixes when Uglify plugin is enabled.
-        // Webpack 1.x uses Uglify plugin as a signal to minify *all* the assets
-        // including CSS. This is confusing and will be removed in Webpack 2:
-        // https://github.com/webpack/webpack/issues/283
-        // ZEAL: Add support for css modules
         loader: ExtractTextPlugin.extract(
           'style',
-          'css?importLoaders=1&-autoprefixer!postcss',
+          'css?importLoaders=1!postcss',
           extractTextPluginOptions
         )
         // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
@@ -191,7 +182,7 @@ module.exports = {
         test: /\.scss$/,
         loader: ExtractTextPlugin.extract(
           'style',
-          'css?modules&importLoaders=2&-autoprefixer!postcss!sass',
+          'css?modules&importLoaders=2!postcss!sass',
           extractTextPluginOptions
         )
       },
@@ -291,11 +282,6 @@ module.exports = {
       fileName: 'asset-manifest.json'
     })
   ],
-  // ZEAL: Configure resolving imports from client root
-  resolve: {
-    root: paths.appSrc,
-    extensions: ['', '.js', '.scss']
-  },
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
   node: {

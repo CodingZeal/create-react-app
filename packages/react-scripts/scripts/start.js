@@ -263,9 +263,7 @@ function runDevServer(host, port, protocol) {
     hot: true,
     // It is important to tell WebpackDevServer to use the same "root" path
     // as we specified in the config. In development, we always serve from /.
-    // ZEAL: The public path is now being injected into the config with this
-    // function, so no need to reach into the config to get it anymore.
-    publicPath: publicPath(host, port, protocol),
+    publicPath: config.output.publicPath,
     // WebpackDevServer is noisy by default so we emit custom message instead
     // by listening to the compiler events with `compiler.plugin` calls above.
     quiet: true,
@@ -296,10 +294,6 @@ function runDevServer(host, port, protocol) {
 
     openBrowser(protocol + '://' + host + ':' + port + '/');
   });
-}
-
-function publicPath(host, port, protocol) {
-  return protocol + '://' + host + ':' + port + '/'
 }
 
 function run(port) {
