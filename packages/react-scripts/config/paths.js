@@ -14,7 +14,7 @@ var path = require('path');
 var fs = require('fs');
 var url = require('url');
 
-// ZEAL: Allow custom build paths via .env config.
+// ZEAL: Allow custom build path via .env config.
 var buildPath = process.env.BUILD_PATH || 'build'
 
 // Make sure any symlinks in the project folder are resolved:
