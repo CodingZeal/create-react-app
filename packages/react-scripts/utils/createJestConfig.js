@@ -25,8 +25,8 @@ module.exports = (resolve, rootDir, isEjecting) => {
   const config = {
     // ZEAL: Use `client` instead of `src` for app directory
     collectCoverageFrom: ['client/**/*.{js,jsx}'],
-    // ZEAL: Configure resolving imports from client root
-    moduleDirectories: [paths.appSrc, paths.appNodeModules, paths.ownNodeModules],
+    // ZEAL: Allow imports to be resolved from application root path
+    moduleDirectories: ['node_modules', paths.appSrc],
     setupFiles: [resolve('config/polyfills.js')],
     setupTestFrameworkScriptFile: setupTestsFile,
     testPathIgnorePatterns: [
