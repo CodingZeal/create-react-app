@@ -135,6 +135,7 @@ module.exports = function(publicPath) { return {
 
       // "url" loader embeds assets smaller than specified size as data URLs to avoid requests.
       // Otherwise, it acts like the "file" loader.
+      // ZEAL: Add .scss because we add the sass-loader below.
       {
         exclude: [
           /\.html$/,
@@ -146,6 +147,7 @@ module.exports = function(publicPath) { return {
           // https://github.com/facebookincubator/create-react-app/issues/1713
           /\.(js|jsx)(\?.*)?$/,
           /\.css$/,
+          /\.scss$/,
           /\.json$/,
           /\.svg$/
         ],
@@ -180,16 +182,16 @@ module.exports = function(publicPath) { return {
       // "style" loader turns CSS into JS modules that inject <style> tags.
       // In production, we use a plugin to extract that CSS to a file, but
       // in development "style" loader enables hot editing of CSS.
-      // ZEAL: Add support for CSS Modules and SASS
       {
         test: /\.css$/,
         loader: 'style!css?importLoaders=1!postcss'
       },
+      // ZEAL: Add support for CSS Modules and SASS
       {
         test: /\.scss$/,
         loaders: [
           'style',
-          'css?modules&importLoaders=1' +
+          'css?modules&importLoaders=2' +
             '&localIdentName=[path][local]__[hash:base64:5]!postcss!sass'
         ]
       },

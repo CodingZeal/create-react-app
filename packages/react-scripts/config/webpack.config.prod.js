@@ -126,11 +126,13 @@ module.exports = {
 
       // "url" loader embeds assets smaller than specified size as data URLs to avoid requests.
       // Otherwise, it acts like the "file" loader.
+      // ZEAL: Add .scss because we add the sass-loader below.
       {
         exclude: [
           /\.html$/,
           /\.(js|jsx)$/,
           /\.css$/,
+          /\.scss$/,
           /\.json$/,
           /\.svg$/
         ],
@@ -177,12 +179,12 @@ module.exports = {
         )
         // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
       },
+      // ZEAL: Add support for CSS Modules and SASS
       {
-        // ZEAL: Add support for scss and extract using ExtractTextPlugin like css above
         test: /\.scss$/,
         loader: ExtractTextPlugin.extract(
           'style',
-          'css?modules&importLoaders=2!sass!postcss',
+          'css?modules&importLoaders=2!postcss!sass',
           extractTextPluginOptions
         )
       },
