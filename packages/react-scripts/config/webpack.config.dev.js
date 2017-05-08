@@ -26,14 +26,12 @@ var path = require('path');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
-// ZEAL: Setting publicPath in the start script and passing it in. Since we are
-// mounting this app on various backends, the dev server port will be different
-// from the port on window location. Because of this, we need the full public
-// path, not just the relative path. Elements of the full path can be dynamic,
-// but are all known in the start script, making it the best place to define the
-// public path.
+// ZEAL: We typically host our React apps within a backend app.  As a result,
+// the dev server will be in a different location than the window location.
+// Because of this, we need the full public path, not just a relative path.
+// We know the publish path in the `start` script, so we inject it from there.
+// See below.
 // var publicPath = '/';
-
 // `publicUrl` is just like `publicPath`, but we will provide it to our app
 // as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
 // Omit trailing slash as %PUBLIC_PATH%/xyz looks better than %PUBLIC_PATH%xyz.
@@ -44,9 +42,9 @@ var env = getClientEnvironment(publicUrl);
 // This is the development configuration.
 // It is focused on developer experience and fast rebuilds.
 // The production configuration is different and lives in a separate file.
-// ZEAL: Converted to a function to allow injecting the publicPath.
-module.exports = function(publicPath) {
-  return {
+// ZEAL: Convert to a function so we can inject the publicPath from the `start`
+// script.
+module.exports = function(publicPath) { return {
   // You may want 'eval' instead if you prefer to see the compiled output in DevTools.
   // See the discussion in https://github.com/facebookincubator/create-react-app/issues/343.
   devtool: 'cheap-module-source-map',
