@@ -1,7 +1,7 @@
 {
   "name": "@zeal/react-scripts",
   "version": "0.1.13",
-  "description": "Configuration and scripts for Create React App.",
+  "description": "Zeal's fork of configuration and scripts for Create React App.",
   "repository": "codingzeal/create-react-app",
   "license": "BSD-3-Clause",
   "engines": {
