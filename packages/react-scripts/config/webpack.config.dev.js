@@ -29,7 +29,7 @@ var path = require('path');
 // ZEAL: We typically host our React apps within a backend app.  As a result,
 // the dev server will be in a different location than the window location.
 // Because of this, we need the full public path, not just a relative path.
-// We know the publish path in the `start` script, so we inject it from there.
+// We know the `publicPath` in the `start` script, so we inject it from there.
 // See below.
 // var publicPath = '/';
 // `publicUrl` is just like `publicPath`, but we will provide it to our app

@@ -15,7 +15,7 @@ var fs = require('fs');
 var url = require('url');
 
 // ZEAL: Allow custom build path via .env config.
-var buildPath = process.env.BUILD_PATH || 'build'
+var buildPath = process.env.BUILD_PATH || 'build';
 
 // Make sure any symlinks in the project folder are resolved:
 // https://github.com/facebookincubator/create-react-app/issues/637
