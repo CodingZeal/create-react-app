@@ -77,6 +77,7 @@ function getServedPath(appPackageJson) {
 }
 
 // config after eject: we're in ./config/
+// ZEAL: Use `client` instead of `src` for app directory
 module.exports = {
   appBuild: resolveApp(buildPath),
   appPublic: resolveApp('client/public'),
@@ -98,6 +99,7 @@ function resolveOwn(relativePath) {
 }
 
 // config before eject: we're in ./node_modules/react-scripts/config/
+// ZEAL: Use `client` instead of `src` for app directory
 module.exports = {
   appPath: resolveApp('.'),
   appBuild: resolveApp(buildPath),
@@ -123,6 +125,7 @@ var reactScriptsLinked = fs.existsSync(reactScriptsPath) && fs.lstatSync(reactSc
 
 // config before publish: we're in ./packages/react-scripts/config/
 if (!reactScriptsLinked && __dirname.indexOf(path.join('packages', 'react-scripts', 'config')) !== -1) {
+  // ZEAL: Use `client` instead of `src` for app directory
   module.exports = {
     appPath: resolveApp('.'),
     appBuild: resolveOwn('../../' + buildPath),

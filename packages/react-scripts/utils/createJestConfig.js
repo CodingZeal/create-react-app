@@ -17,13 +17,14 @@ const paths = require('../config/paths');
 module.exports = (resolve, rootDir, isEjecting) => {
   // Use this instead of `paths.testsSetup` to avoid putting
   // an absolute filename into configuration after ejecting.
-  const setupTestsFile = fs.existsSync(paths.testsSetup) ? '<rootDir>/src/setupTests.js' : undefined;
+  // ZEAL: Use `client` instead of `src` for app directory
+  const setupTestsFile = fs.existsSync(paths.testsSetup) ? '<rootDir>/client/setupTests.js' : undefined;
 
   // TODO: I don't know if it's safe or not to just use / as path separator
   // in Jest configs. We need help from somebody with Windows to determine this.
   const config = {
-    // ZEAL: Coverage report to inlcude all client src code
-    collectCoverageFrom: ['src/**/*.{js,jsx}'],
+    // ZEAL: Use `client` instead of `src` for app directory
+    collectCoverageFrom: ['client/**/*.{js,jsx}'],
     // ZEAL: Configure resolving imports from client root
     moduleDirectories: [paths.appSrc, paths.appNodeModules, paths.ownNodeModules],
     setupFiles: [resolve('config/polyfills.js')],
