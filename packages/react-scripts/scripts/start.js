@@ -68,8 +68,7 @@ function setupCompiler(host, port, protocol) {
   // It lets us listen to some events and provide our own custom messages.
   // ZEAL: We inject `publicPath` into the config since it needs to be fully
   // qualified. More notes in `webpack.config.dev.js` regarding this change.
-  var publicPath = protocol + '://' + host + ':' + port + '/';
-  compiler = webpack(config(publicPath), handleCompile);
+  compiler = webpack(config(publicPath(host, port, protocol)), handleCompile);
 
   // "invalid" event fires when you have changed a file, and Webpack is
   // recompiling a bundle. WebpackDevServer takes care to pause serving the
@@ -264,7 +263,11 @@ function runDevServer(host, port, protocol) {
     hot: true,
     // It is important to tell WebpackDevServer to use the same "root" path
     // as we specified in the config. In development, we always serve from /.
-    publicPath: config.output.publicPath,
+    // ZEAL: We need to compute a fully-qualified `publicPath` because our apps
+    // are typically embedded in a back-end app.  We can't just use
+    // `config.output.publicPath` here because `config` is now a function and
+    // not an object.
+    publicPath: publicPath(host, port, protocol),
     // WebpackDevServer is noisy by default so we emit custom message instead
     // by listening to the compiler events with `compiler.plugin` calls above.
     quiet: true,
@@ -296,6 +299,10 @@ function runDevServer(host, port, protocol) {
     // ZEAL: Our app runs on a different port, so don't open the browser
     // openBrowser(protocol + '://' + host + ':' + port + '/');
   });
+}
+
+function publicPath(host, port, protocol) {
+  return protocol + '://' + host + ':' + port + '/';
 }
 
 function run(port) {
