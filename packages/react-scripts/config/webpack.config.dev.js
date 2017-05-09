@@ -21,7 +21,8 @@ var paths = require('./paths');
 
 // @remove-on-eject-begin
 // `path` is not used after eject - see https://github.com/facebookincubator/create-react-app/issues/1174
-var path = require('path');
+// ZEAL: `path` is not needed because we commented out the only use of it below
+// var path = require('path');
 // @remove-on-eject-end
 
 // Webpack uses `publicPath` to determine where the app is being served from.
@@ -213,12 +214,13 @@ module.exports = function(publicPath) { return {
       // Remember to add the new extension(s) to the "url" loader exclusion list.
     ]
   },
+  // ZEAL: Use the eslint configuration from the parent project
   // @remove-on-eject-begin
   // Point ESLint to our predefined config.
-  eslint: {
-    configFile: path.join(__dirname, '../eslintrc'),
-    useEslintrc: false,
-  },
+  // eslint: {
+  //   configFile: path.join(__dirname, '../eslintrc'),
+  //   useEslintrc: false,
+  // },
   // @remove-on-eject-end
   // We use PostCSS for autoprefixing only.
   postcss: function() {

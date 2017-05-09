@@ -17,6 +17,7 @@ var args = process.argv.slice(3);
 switch (script) {
 case 'build':
 case 'eject':
+case 'lint':
 case 'start':
 case 'test':
   var result = spawn.sync(

@@ -21,7 +21,8 @@ var getClientEnvironment = require('./env');
 
 // @remove-on-eject-begin
 // `path` is not used after eject - see https://github.com/facebookincubator/create-react-app/issues/1174
-var path = require('path');
+// ZEAL: `path` is not needed because we commented out the only use of it below
+// var path = require('path');
 // @remove-on-eject-end
 
 // Webpack uses `publicPath` to determine where the app is being served from.
@@ -208,12 +209,13 @@ module.exports = {
   },
   // @remove-on-eject-begin
   // Point ESLint to our predefined config.
-  eslint: {
-    // TODO: consider separate config for production,
-    // e.g. to enable no-console and no-debugger only in production.
-    configFile: path.join(__dirname, '../eslintrc'),
-    useEslintrc: false
-  },
+  // ZEAL: Use the eslint configuration from the parent project
+  // eslint: {
+  //   // TODO: consider separate config for production,
+  //   // e.g. to enable no-console and no-debugger only in production.
+  //   configFile: path.join(__dirname, '../eslintrc'),
+  //   useEslintrc: false
+  // },
   // @remove-on-eject-end
   // We use PostCSS for autoprefixing only.
   postcss: function() {
