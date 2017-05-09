@@ -7,38 +7,52 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
+'use strict';
+
 // Note: this file does not exist after ejecting.
 
-const pathExists = require('path-exists');
+const fs = require('fs');
 const paths = require('../config/paths');
 
 module.exports = (resolve, rootDir, isEjecting) => {
   // Use this instead of `paths.testsSetup` to avoid putting
   // an absolute filename into configuration after ejecting.
-  const setupTestsFile = pathExists.sync(paths.testsSetup) ? '<rootDir>/src/setupTests.js' : undefined;
+  // ZEAL: Use `client` instead of `src` for app directory
+  const setupTestsFile = fs.existsSync(paths.testsSetup) ? '<rootDir>/client/setupTests.js' : undefined;
 
+  // TODO: I don't know if it's safe or not to just use / as path separator
+  // in Jest configs. We need help from somebody with Windows to determine this.
   const config = {
-    // ZEAL: Coverage report to inlcude all client src code
-    collectCoverageFrom: ['client/**/*.js', '!client/**/*-spec.js'],
-    // ZEAL: Configure resolving imports from client root
-    moduleDirectories: [paths.appSrc, paths.appNodeModules, paths.ownNodeModules],
-    moduleFileExtensions: ['jsx', 'js', 'json'],
-    moduleNameMapper: {
-      '^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': resolve('config/jest/FileStub.js'),
-      '^.+\\.(css|scss)$': resolve('config/jest/CSSStub.js')
-    },
+    // ZEAL: Use `client` instead of `src` for app directory
+    collectCoverageFrom: ['client/**/*.{js,jsx}'],
+    // ZEAL: Allow imports to be resolved from application root path
+    moduleDirectories: ['node_modules', paths.appSrc],
     setupFiles: [resolve('config/polyfills.js')],
     setupTestFrameworkScriptFile: setupTestsFile,
-    testPathIgnorePatterns: ['<rootDir>/(build|docs|node_modules)/'],
+    testPathIgnorePatterns: [
+      '<rootDir>[/\\\\](build|docs|node_modules|scripts)[/\\\\]'
+    ],
     testEnvironment: 'node',
+    testURL: 'http://localhost',
+    transform: {
+      '^.+\\.(js|jsx)$': isEjecting ?
+        '<rootDir>/node_modules/babel-jest'
+        : resolve('config/jest/babelTransform.js'),
+      // ZEAL: Replace this cssTransform with a moduleNameMapper below
+      // '^.+\\.css$': resolve('config/jest/cssTransform.js'),
+      // ZEAL: Don't use this transform for scss files
+      '^(?!.*\\.(js|jsx|css|sccs|json)$)': resolve('config/jest/fileTransform.js'),
+    },
+    transformIgnorePatterns: [
+      '[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$'
+    ],
+    moduleNameMapper: {
+      '^react-native$': 'react-native-web',
+      '^.+\\.(css|scss)$': resolve('config/jest/cssObjectProxy.js')
+    }
   };
   if (rootDir) {
     config.rootDir = rootDir;
-  }
-  if (!isEjecting) {
-    // This is unnecessary after ejecting because Jest
-    // will just use .babelrc in the project folder.
-    config.scriptPreprocessor = resolve('config/jest/transform.js');
   }
   return config;
 };

@@ -7,6 +7,8 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
+'use strict';
+
 // Inspired by https://github.com/airbnb/javascript but less opinionated.
 
 // We use eslint-loader so even warnings are very visible.
@@ -43,8 +45,7 @@ module.exports = {
 
   settings: {
     'import/ignore': [
-      'node_modules',
-      '\\.(json|css|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$',
+      'node_modules'
     ],
     'import/extensions': ['.js'],
     'import/resolver': {
@@ -60,7 +61,6 @@ module.exports = {
     'default-case': ['warn', { commentPattern: '^no default$' }],
     'dot-location': ['warn', 'property'],
     eqeqeq: ['warn', 'allow-null'],
-    'guard-for-in': 'warn',
     'new-parens': 'warn',
     'no-array-constructor': 'warn',
     'no-caller': 'warn',
@@ -134,7 +134,8 @@ module.exports = {
     'no-unused-vars': ['warn', {
       vars: 'local',
       varsIgnorePattern: '^_',
-      args: 'none'
+      args: 'none',
+      ignoreRestSiblings: true,
     }],
     'no-use-before-define': ['warn', 'nofunc'],
     'no-useless-computed-key': 'warn',
@@ -190,7 +191,7 @@ module.exports = {
     // https://github.com/yannickcr/eslint-plugin-react/tree/master/docs/rules
     'react/jsx-equals-spacing': ['warn', 'never'],
     'react/jsx-no-duplicate-props': ['warn', { ignoreCase: true }],
-    'react/jsx-no-undef': 'warn',
+    'react/jsx-no-undef': 'error',
     'react/jsx-pascal-case': ['warn', {
       allowAllCaps: true,
       ignore: [],
