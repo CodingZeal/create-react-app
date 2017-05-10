@@ -90,7 +90,8 @@ prompt(
   var ownPackage = require(path.join(ownPath, 'package.json'));
   var appPackage = require(path.join(appPath, 'package.json'));
   var babelConfig = JSON.parse(fs.readFileSync(path.join(ownPath, 'babelrc'), 'utf8'));
-  var eslintConfig = JSON.parse(fs.readFileSync(path.join(ownPath, 'eslintrc'), 'utf8'));
+  // ZEAL: We don't need this; see below for details
+  // var eslintConfig = JSON.parse(fs.readFileSync(path.join(ownPath, 'eslintrc'), 'utf8'));
 
   console.log(cyan('Updating the dependencies'));
   var ownPackageName = ownPackage.name;
@@ -143,8 +144,11 @@ prompt(
   appPackage.babel = babelConfig;
 
   // Add ESlint config
-  console.log('  Adding ' + cyan('ESLint') +' configuration');
-  appPackage.eslintConfig = eslintConfig;
+  // ZEAL: We rely on the host project for its eslint configuration, so there
+  // is no need to do anything with the local eslintconfig, because we never
+  // use it.
+  // console.log('  Adding ' + cyan('ESLint') +' configuration');
+  // appPackage.eslintConfig = eslintConfig;
 
   fs.writeFileSync(
     path.join(appPath, 'package.json'),
