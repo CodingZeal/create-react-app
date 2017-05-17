@@ -2023,9 +2023,9 @@ escope@^3.6.0:
     esrecurse "^4.1.0"
     estraverse "^4.1.1"
 
-eslint-config-zeal@^0.21.0:
-  version "0.21.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-zeal/-/eslint-config-zeal-0.21.0.tgz#49ebe100537d1147b07dacbc9dfe0c9c0ded509b"
+eslint-config-zeal@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-zeal/-/eslint-config-zeal-1.0.0.tgz#ddf3669352c3d405de194e298b3397061ebaffa4"
 
 eslint-import-resolver-node@^0.2.0:
   version "0.2.3"
