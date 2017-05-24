@@ -241,7 +241,7 @@ module.exports = {
         ],
       },
       // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
-      // using the extension .modules.css
+      // using the extension .module.css
       {
         test: /\.module\.css$/,
         use: [
