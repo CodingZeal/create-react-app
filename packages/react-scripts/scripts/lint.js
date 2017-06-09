@@ -1,18 +1,22 @@
 'use strict';
 
-// Load environment variables from .env file. Suppress warnings using silent
-// if this file is missing. dotenv will never modify any environment variables
-// that have already been set.
-// https://github.com/motdotla/dotenv
-require('dotenv').config({silent: true});
+// Makes the script crash on unhandled rejections instead of silently
+// ignoring them. In the future, promise rejections that are not handled will
+// terminate the Node.js process with a non-zero exit code.
+process.on('unhandledRejection', err => {
+  throw err;
+});
 
-var path = require('path');
-var spawn = require('cross-spawn');
+// Ensure environment variables are read.
+require('../config/env');
 
-var paths = require('../config/paths');
+const path = require('path');
+const spawn = require('react-dev-utils/crossSpawn');
 
-var argv = process.argv.slice(2);
-var eslint = path.resolve(paths.ownNodeModules, '.bin/eslint');
+const paths = require('../config/paths');
 
-var proc = spawn.sync(eslint, [paths.appSrc, ...argv], {stdio: 'inherit'});
+const argv = process.argv.slice(2);
+const eslint = path.resolve(paths.ownNodeModules, '.bin/eslint');
+
+const proc = spawn.sync(eslint, [paths.appSrc, ...argv], { stdio: 'inherit' });
 process.exit(proc.status);

@@ -1,6 +1,0 @@
-{
-  "presets": [
-    "react-app",
-    "stage-1"
-  ]
-}
