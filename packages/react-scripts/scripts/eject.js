@@ -187,8 +187,9 @@ inquirer
 
     // Add Babel config
     console.log(`  Adding ${cyan('Babel')} preset`);
+    // ZEAL: Add babel-preset-stage-1
     appPackage.babel = {
-      presets: ['react-app'],
+      presets: ['react-app', 'stage-1'],
     };
 
     // Add ESlint config
