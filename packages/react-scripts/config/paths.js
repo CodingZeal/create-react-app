@@ -52,6 +52,7 @@ function getServedPath(appPackageJson) {
 }
 
 // config after eject: we're in ./config/
+// ZEAL: Allow custom build path via .env config.
 // ZEAL: Use `client` instead of `src` for app directory
 module.exports = {
   dotenv: resolveApp('.env'),
@@ -72,6 +73,7 @@ module.exports = {
 const resolveOwn = relativePath => path.resolve(__dirname, '..', relativePath);
 
 // config before eject: we're in ./node_modules/react-scripts/config/
+// ZEAL: Allow custom build path via .env config.
 // ZEAL: Use `client` instead of `src` for app directory
 module.exports = {
   dotenv: resolveApp('.env'),
@@ -102,7 +104,7 @@ if (
   !reactScriptsLinked &&
   __dirname.indexOf(path.join('packages', 'react-scripts', 'config')) !== -1
 ) {
-  // ZEAL: Use `client` instead of `src` for app directory
+  // ZEAL: Allow custom build path via .env config.
   module.exports = {
     dotenv: resolveOwn('template/.env'),
     appPath: resolveApp('.'),
