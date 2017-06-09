@@ -141,11 +141,12 @@ module.exports = {
             options: {
               formatter: eslintFormatter,
               // @remove-on-eject-begin
-              baseConfig: {
-                extends: [require.resolve('eslint-config-react-app')],
-              },
+              // ZEAL: Rely on host project for ESLint configuration.
+              // baseConfig: {
+              //   extends: [require.resolve('eslint-config-react-app')],
+              // },
               ignore: false,
-              useEslintrc: false,
+              useEslintrc: true,
               // @remove-on-eject-end
             },
             loader: require.resolve('eslint-loader'),
