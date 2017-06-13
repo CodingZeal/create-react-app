@@ -181,11 +181,13 @@ module.exports = {
       // "file" loader makes sure those assets get served by WebpackDevServer.
       // When you `import` an asset, you get its (virtual) filename.
       // In production, they would get copied to the `build` folder.
+      // ZEAL: Add .scss because we add the sass-loader below.
       {
         exclude: [
           /\.html$/,
           /\.(js|jsx)$/,
           /\.css$/,
+          /\.scss$/,
           /\.json$/,
           /\.bmp$/,
           /\.gif$/,
@@ -269,6 +271,26 @@ module.exports = {
             loader: require.resolve('postcss-loader'),
             options: postCSSLoaderOptions,
           },
+        ],
+      },
+      // ZEAL: Adds support for Sass with CSS Modules
+      {
+        test: /\.scss$/,
+        use: [
+          require.resolve('style-loader'),
+          {
+            loader: require.resolve('css-loader'),
+            options: {
+              importLoaders: 1,
+              modules: true,
+              localIdentName: '[name]__[local]___[hash:base64:5]',
+            },
+          },
+          {
+            loader: require.resolve('postcss-loader'),
+            options: postCSSLoaderOptions,
+          },
+          require.resolve('sass-loader'),
         ],
       },
       // ** STOP ** Are you adding a new loader?

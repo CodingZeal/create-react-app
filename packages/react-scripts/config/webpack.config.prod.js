@@ -174,11 +174,13 @@ module.exports = {
 
       // "file" loader makes sure those assets end up in the `build` folder.
       // When you `import` an asset, you get its filename.
+      // ZEAL: Add .scss because we add the sass-loader below.
       {
         exclude: [
           /\.html$/,
           /\.(js|jsx)$/,
           /\.css$/,
+          /\.scss$/,
           /\.json$/,
           /\.bmp$/,
           /\.gif$/,
@@ -279,6 +281,36 @@ module.exports = {
                   loader: require.resolve('postcss-loader'),
                   options: postCSSLoaderOptions,
                 },
+              ],
+            },
+            extractTextPluginOptions
+          )
+        ),
+        // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
+      },
+      // ZEAL: Adds support for Sass with CSS Modules
+      {
+        test: /.scss$/,
+        loader: ExtractTextPlugin.extract(
+          Object.assign(
+            {
+              fallback: require.resolve('style-loader'),
+              use: [
+                {
+                  loader: require.resolve('css-loader'),
+                  options: {
+                    importLoaders: 1,
+                    minimize: true,
+                    sourceMap: true,
+                    modules: true,
+                    localIdentName: '[name]__[local]___[hash:base64:5]',
+                  },
+                },
+                {
+                  loader: require.resolve('postcss-loader'),
+                  options: postCSSLoaderOptions,
+                },
+                require.resolve('sass-loader'),
               ],
             },
             extractTextPluginOptions
