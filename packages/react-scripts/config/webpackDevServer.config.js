@@ -86,6 +86,12 @@ module.exports = function(proxy, allowedHost) {
       // See https://github.com/facebookincubator/create-react-app/issues/387.
       disableDotRule: true,
     },
+    headers: {
+      // ZEAL: Allow cross-origin requests so that, when hosted in a back-end
+      // application, the client can fetch assets and hot module reloading
+      // updates.
+      'Access-Control-Allow-Origin': '*',
+    },
     public: allowedHost,
     proxy,
     setup(app) {

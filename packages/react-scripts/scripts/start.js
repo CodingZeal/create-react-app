@@ -64,8 +64,15 @@ choosePort(HOST, DEFAULT_PORT)
     const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
     const appName = require(paths.appPackageJson).name;
     const urls = prepareUrls(protocol, HOST, port);
+    // ZEAL: We often host our React apps within a back-end application.  Thus,
+    // we need to open the browser on that application and not the webpack
+    // dev server.  If the client application specifies `APP_PORT`, we'll open
+    // the browser on that port instead of the dev server's port.
+    const appPort = parseInt(process.env.APP_PORT, 10) || port;
+    const appUrls = prepareUrls(protocol, HOST, appPort);
     // Create a webpack compiler that is configured with custom messages.
-    const compiler = createCompiler(webpack, config, appName, urls, useYarn);
+    // ZEAL: Pass `appUrls` instead of `urls` to see proper instructions.
+    const compiler = createCompiler(webpack, config, appName, appUrls, useYarn);
     // Load proxy config
     const proxySetting = require(paths.appPackageJson).proxy;
     const proxyConfig = prepareProxy(proxySetting, paths.appPublic);
@@ -84,7 +91,9 @@ choosePort(HOST, DEFAULT_PORT)
         clearConsole();
       }
       console.log(chalk.cyan('Starting the development server...\n'));
-      openBrowser(urls.localUrlForBrowser);
+      // ZEAL: Use appUrls instead of urls to allow for back-end host
+      // application.
+      openBrowser(appUrls.localUrlForBrowser);
     });
 
     ['SIGINT', 'SIGTERM'].forEach(function(sig) {

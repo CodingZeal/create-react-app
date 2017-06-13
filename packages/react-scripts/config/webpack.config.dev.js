@@ -19,12 +19,26 @@ const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
 const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
+const { prepareUrls } = require('react-dev-utils/WebpackDevServerUtils');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
 
+// ZEAL: We often host our React apps within a back-end application.  Thus,
+// we need to provide the correct location of the webpack dev-server to its
+// client.  If we don't, it will use `window.location` instead, which will be
+// pointing at the back-end application.
+// NOTE: It is important to keep this code in sync with `scripts/start.js`.
+// The duplication is unfortunate, but unavoidable with the current structure
+// of the upstream code.
+const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
+const host = process.env.HOST || '0.0.0.0';
+const port = parseInt(process.env.PORT, 10) || 3000;
+const urls = prepareUrls(protocol, host, port);
+
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
-const publicPath = '/';
+const publicPath = urls.localUrlForBrowser;
+
 // `publicUrl` is just like `publicPath`, but we will provide it to our app
 // as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
 // Omit trailing slash as %PUBLIC_PATH%/xyz looks better than %PUBLIC_PATH%xyz.
