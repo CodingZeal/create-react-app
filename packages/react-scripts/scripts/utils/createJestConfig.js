@@ -41,6 +41,8 @@ module.exports = (resolve, rootDir, isEjecting) => {
         : resolve('config/jest/babelTransform.js'),
       '^.+\\.css$': resolve('config/jest/cssTransform.js'),
       '^(?!.*\\.(js|jsx|css|json)$)': resolve('config/jest/fileTransform.js'),
+      // ZEAL: Adds support for parsing GraphQL files
+      '^.+\\.(gql|graphql)$': require.resolve('jest-transform-graphql'),
     },
     transformIgnorePatterns: [
       '[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$',
