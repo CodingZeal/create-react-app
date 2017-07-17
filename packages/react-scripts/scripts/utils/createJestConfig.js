@@ -51,6 +51,8 @@ module.exports = (resolve, rootDir, isEjecting) => {
     moduleNameMapper: {
       '^react-native$': 'react-native-web',
       '^.+\\.module\\.css$': 'identity-obj-proxy',
+      // ZEAL: Account for scss files also using cssModules
+      '^.+\\.scss$': 'identity-obj-proxy',
     },
   };
   if (rootDir) {
