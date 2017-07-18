@@ -174,11 +174,12 @@ module.exports = {
 
       // "file" loader makes sure those assets end up in the `build` folder.
       // When you `import` an asset, you get its filename.
-      // ZEAL: Add .scss because we add the sass-loader below.
+      // ZEAL: Add .scss and .graphql because we add the loaders below
       {
         exclude: [
           /\.html$/,
           /\.(js|jsx)$/,
+          /\.(graphql|gql)$/,
           /\.css$/,
           /\.scss$/,
           /\.json$/,
@@ -317,6 +318,12 @@ module.exports = {
           )
         ),
         // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
+      },
+      // ZEAL: Adds support for parsing GraphQL files
+      {
+        test: /\.(graphql|gql)$/,
+        exclude: /node_modules/,
+        loader: 'graphql-tag/loader',
       },
       // ** STOP ** Are you adding a new loader?
       // Remember to add the new extension(s) to the "file" loader exclusion list.
