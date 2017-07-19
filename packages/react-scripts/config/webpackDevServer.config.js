@@ -10,13 +10,35 @@
 // @remove-on-eject-end
 'use strict';
 
+// ZEAL: add fs for ssl key and cert loading
+const fs = require('fs');
 const errorOverlayMiddleware = require('react-error-overlay/middleware');
 const noopServiceWorkerMiddleware = require('react-dev-utils/noopServiceWorkerMiddleware');
 const config = require('./webpack.config.dev');
 const paths = require('./paths');
 
-const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
 const host = process.env.HOST || '0.0.0.0';
+// ZEAL: ssl file loading
+const readSslFile = function(path) {
+  try {
+    return fs.readFileSync(path);
+  } catch (err) {
+    console.log('Unable to parse SSL path - ' + path);
+    process.exit(1);
+  }
+};
+// ZEAL: handle ssl key and certs when running http
+const https = (function(https, key_path, cert_path) {
+  if (https === 'true') {
+    if (key_path && cert_path) {
+      return { key: readSslFile(key_path), cert: readSslFile(cert_path) };
+    } else {
+      return true;
+    }
+  } else {
+    return false;
+  }
+})(process.env.HTTPS, process.env.SSL_KEY_PATH, process.env.SSL_CERT_PATH);
 
 module.exports = function(proxy, allowedHost) {
   return {
@@ -78,7 +100,8 @@ module.exports = function(proxy, allowedHost) {
       ignored: /node_modules/,
     },
     // Enable HTTPS if the HTTPS environment variable is set to 'true'
-    https: protocol === 'https',
+    // ZEAL: load https from functions up above
+    https: https,
     host: host,
     overlay: false,
     historyApiFallback: {
