@@ -54,7 +54,7 @@ module.exports = (resolve, rootDir, isEjecting) => {
       // ZEAL: Account for scss files also using cssModules
       '^.+\\.scss$': 'identity-obj-proxy',
     },
-    moduleFileExtensions: ['web.js', 'js', 'json', 'web.jsx', 'jsx'],
+    moduleFileExtensions: ['web.js', 'js', 'json', 'web.jsx', 'jsx', 'node'],
   };
   if (rootDir) {
     config.rootDir = rootDir;
