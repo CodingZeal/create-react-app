@@ -1,10 +1,8 @@
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 
 /* @flow */
@@ -39,7 +37,10 @@ export type ErrorRecord = {|
   stackFrames: StackFrame[],
 |};
 
-export function listenToRuntimeErrors(crash: ErrorRecord => void) {
+export function listenToRuntimeErrors(
+  crash: ErrorRecord => void,
+  filename: string = '/static/js/bundle.js'
+) {
   function crashWithFrames(error: Error, unhandledRejection = false) {
     getStackFrames(error, unhandledRejection, CONTEXT_SIZE)
       .then(stackFrames => {
@@ -68,7 +69,7 @@ export function listenToRuntimeErrors(crash: ErrorRecord => void) {
       {
         message: data.message,
         stack: data.stack,
-        __unmap_source: '/static/js/bundle.js',
+        __unmap_source: filename,
       },
       false
     );

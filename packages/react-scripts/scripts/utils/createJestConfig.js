@@ -1,11 +1,9 @@
 // @remove-file-on-eject
 /**
  * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
  *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
 'use strict';
 
@@ -25,27 +23,29 @@ module.exports = (resolve, rootDir, isEjecting) => {
   // in Jest configs. We need help from somebody with Windows to determine this.
   const config = {
     // ZEAL: Use `client` instead of `src` for app directory
-    collectCoverageFrom: ['client/**/*.{js,jsx}'],
+    collectCoverageFrom: ['client/**/*.{js,jsx,mjs}'],
     setupFiles: [resolve('config/polyfills.js')],
     setupTestFrameworkScriptFile: setupTestsFile,
     // ZEAL: Use `client` instead of `src` for app directory
     testMatch: [
-      '<rootDir>/client/**/__tests__/**/*.js?(x)',
-      '<rootDir>/client/**/?(*.)(spec|test).js?(x)',
+      '<rootDir>/client/**/__tests__/**/*.{js,jsx,mjs}',
+      '<rootDir>/client/**/?(*.)(spec|test).{js,jsx,mjs}',
     ],
     testEnvironment: 'node',
     testURL: 'http://localhost',
     transform: {
-      '^.+\\.(js|jsx)$': isEjecting
+      '^.+\\.(js|jsx|mjs)$': isEjecting
         ? '<rootDir>/node_modules/babel-jest'
         : resolve('config/jest/babelTransform.js'),
       '^.+\\.css$': resolve('config/jest/cssTransform.js'),
-      '^(?!.*\\.(js|jsx|css|json)$)': resolve('config/jest/fileTransform.js'),
+      '^(?!.*\\.(js|jsx|mjs|css|json)$)': resolve(
+        'config/jest/fileTransform.js'
+      ),
       // ZEAL: Adds support for parsing GraphQL files
       '^.+\\.(gql|graphql)$': require.resolve('jest-transform-graphql'),
     },
     transformIgnorePatterns: [
-      '[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$',
+      '[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$',
       '^.+\\.module\\.css$',
     ],
     moduleNameMapper: {
@@ -54,7 +54,15 @@ module.exports = (resolve, rootDir, isEjecting) => {
       // ZEAL: Account for scss files also using cssModules
       '^.+\\.scss$': 'identity-obj-proxy',
     },
-    moduleFileExtensions: ['web.js', 'js', 'json', 'web.jsx', 'jsx', 'node'],
+    moduleFileExtensions: [
+      'web.js',
+      'mjs',
+      'js',
+      'json',
+      'web.jsx',
+      'jsx',
+      'node',
+    ],
   };
   if (rootDir) {
     config.rootDir = rootDir;
