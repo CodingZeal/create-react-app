@@ -1,6 +1,6 @@
 {
   "name": "@zeal/react-scripts",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "Zeal's fork of configuration and scripts for Create React App.",
   "repository": "codingzeal/create-react-app",
   "license": "MIT",
