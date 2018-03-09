@@ -38,7 +38,7 @@ module.exports = (resolve, rootDir, isEjecting) => {
         ? '<rootDir>/node_modules/babel-jest'
         : resolve('config/jest/babelTransform.js'),
       '^.+\\.css$': resolve('config/jest/cssTransform.js'),
-      '^(?!.*\\.(js|jsx|mjs|css|json)$)': resolve(
+      '^(?!.*\\.(js|jsx|mjs|css|json|graphql|gql)$)': resolve(
         'config/jest/fileTransform.js'
       ),
       // ZEAL: Adds support for parsing GraphQL files
