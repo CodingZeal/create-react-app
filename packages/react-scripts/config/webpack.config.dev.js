@@ -35,7 +35,8 @@ const urls = prepareUrls(protocol, host, port);
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
-const publicPath = '/';
+// ZEAL: Use urls to allow for back-end host application.
+const publicPath = urls.localUrlForBrowser;
 
 // `publicUrl` is just like `publicPath`, but we will provide it to our app
 // as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
