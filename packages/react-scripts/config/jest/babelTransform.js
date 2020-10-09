@@ -16,4 +16,5 @@ module.exports = babelJest.createTransformer({
     require.resolve('babel-preset-stage-1'),
   ],
   babelrc: false,
+  configFile: false,
 });
