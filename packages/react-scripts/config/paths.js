@@ -68,7 +68,7 @@ module.exports = {
   appBuild: resolveApp(buildPath),
   appPublic: resolveApp('client/public'),
   appHtml: resolveApp('client/public/index.html'),
-  appIndexJs: resolveModule('client/index'),
+  appIndexJs: resolveApp('client/index'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('client'),
   appTsConfig: resolveApp('tsconfig.json'),
@@ -90,7 +90,7 @@ const resolveOwn = relativePath => path.resolve(__dirname, '..', relativePath);
 module.exports = {
   dotenv: resolveApp('.env'),
   appPath: resolveApp('.'),
-  appBuild: resolveApp(build),
+  appBuild: resolveApp(buildPath),
   appPublic: resolveApp('client/public'),
   appHtml: resolveApp('client/public/index.html'),
   appIndexJs: resolveModule(resolveApp, 'client/index'),
@@ -122,24 +122,24 @@ if (
   !reactScriptsLinked &&
   __dirname.indexOf(path.join('packages', 'react-scripts', 'config')) !== -1
 ) {
-  // ZEAL: Allow custom build path via .env config.
   const templatePath = '../cra-template/template';
+  // ZEAL: Allow custom build path via .env config.
   module.exports = {
-    dotenv: resolveOwn("template/.env"),
+    dotenv: resolveOwn(`${templatePath}/.env`),
     appPath: resolveApp('.'),
     appBuild: resolveOwn('../../' + buildPath),
-    appPublic: resolveOwn('template/public'),
-    appHtml: resolveOwn('template/public/index.html'),
-    appIndexJs: resolveOwn('template/src/index.js'),
+    appPublic: resolveOwn(`${templatePath}/public`),
+    appHtml: resolveOwn(`${templatePath}/public/index.html`),
+    appIndexJs: resolveOwn(`${templatePath}/src/index.js`),
     appPackageJson: resolveOwn('package.json'),
-    appSrc: resolveOwn('template/src'),
-    appTsConfig: resolveOwn('template/tsconfig.json'),
-    appJsConfig: resolveOwn('template/jsconfig.json'),
-    yarnLockFile: resolveOwn('template/yarn.lock'),
-    testsSetup: resolveModule(resolveOwn, 'template/src/setupTests'),
-    proxySetup: resolveOwn('template/src/setupProxy.js'),
+    appSrc: resolveOwn(`${templatePath}/src`),
+    appTsConfig: resolveOwn(`${templatePath}/tsconfig.json`),
+    appJsConfig: resolveOwn(`${templatePath}/jsconfig.json`),
+    yarnLockFile: resolveOwn(`${templatePath}/yarn.lock`),
+    testsSetup: resolveModule(resolveOwn, `${templatePath}/src/setupTests`),
+    proxySetup: resolveOwn(`${templatePath}/src/setupProxy.js`),
     appNodeModules: resolveOwn('node_modules'),
-    swSrc: resolveModule(resolveOwn, 'template/src/service-worker'),
+    swSrc: resolveModule(resolveOwn, `${templatePath}/src/service-worker`),
     publicUrlOrPath,
     // These properties only exist before ejecting:
     ownPath: resolveOwn('.'),
